@@ -10,6 +10,9 @@ __pycache__/
 *.py[cod]
 *.pyo
 
+# データ
+data/counts.json
+
 # pytest
 .pytest_cache/
 

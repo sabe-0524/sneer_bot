@@ -39,7 +39,7 @@ def normalize_uo_text(content: str) -> str:
 
 
 def is_uo_message(content: str) -> bool:
-    return normalize_uo_text(content) == "うお"
+    return "うお" in normalize_uo_text(content)
 
 
 def should_count_message(*, is_bot: bool, guild_id: int | None, content: str) -> bool:
