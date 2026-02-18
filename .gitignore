@@ -1,1 +1,19 @@
 .env
+
+# 仮想環境
+.venv/
+venv/
+env/
+
+# Pythonキャッシュ
+__pycache__/
+*.py[cod]
+*.pyo
+
+# pytest
+.pytest_cache/
+
+# pip
+*.egg-info/
+dist/
+build/
