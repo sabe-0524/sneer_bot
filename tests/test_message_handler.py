@@ -4,6 +4,9 @@ from src.message_handler import build_count_report, is_uo_message, should_count_
 def test_is_uo_message_exact_match() -> None:
     assert is_uo_message("うお") is True
     assert is_uo_message(" うお ") is True
+    assert is_uo_message("ウオ") is True
+    assert is_uo_message("ぅぉ") is True
+    assert is_uo_message("ｳｫ") is True
 
 
 def test_is_uo_message_non_match() -> None:

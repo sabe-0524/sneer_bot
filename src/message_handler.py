@@ -1,8 +1,45 @@
 from __future__ import annotations
 
+import unicodedata
+
+
+_SMALL_TO_REGULAR = str.maketrans(
+    {
+        "ぁ": "あ",
+        "ぃ": "い",
+        "ぅ": "う",
+        "ぇ": "え",
+        "ぉ": "お",
+        "ゃ": "や",
+        "ゅ": "ゆ",
+        "ょ": "よ",
+        "ゎ": "わ",
+        "ゕ": "か",
+        "ゖ": "け",
+        "っ": "つ",
+    }
+)
+
+
+def _to_hiragana(text: str) -> str:
+    chars: list[str] = []
+    for char in text:
+        code_point = ord(char)
+        if 0x30A1 <= code_point <= 0x30F6:
+            chars.append(chr(code_point - 0x60))
+            continue
+        chars.append(char)
+    return "".join(chars)
+
+
+def normalize_uo_text(content: str) -> str:
+    normalized = unicodedata.normalize("NFKC", content).strip()
+    normalized = _to_hiragana(normalized)
+    return normalized.translate(_SMALL_TO_REGULAR)
+
 
 def is_uo_message(content: str) -> bool:
-    return content.strip() == "うお"
+    return normalize_uo_text(content) == "うお"
 
 
 def should_count_message(*, is_bot: bool, guild_id: int | None, content: str) -> bool:
