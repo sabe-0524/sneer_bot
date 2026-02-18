@@ -47,7 +47,10 @@ def _to_hiragana(text: str) -> str:
 
 def normalize_uo_text(content: str) -> str:
     normalized = unicodedata.normalize("NFKC", content).strip()
-    normalized = re.sub(r"\s+", "", normalized)
+    # ひらがな・カタカナ・漢字・ラテン文字以外（記号・空白・数字等）を除去
+    # \u3041-\u3096: ひらがな文字, \u30a1-\u30fa: カタカナ文字（・U+30FBは除外）
+    # \u30fc: 長音符ー
+    normalized = re.sub(r"[^\u3041-\u3096\u30a1-\u30fa\u30fc\u4e00-\u9fffa-zA-Z]", "", normalized)
     normalized = _to_hiragana(normalized)
     normalized = normalized.translate(_SMALL_TO_REGULAR)
     normalized = _WO_PATTERN.sub("お", normalized)

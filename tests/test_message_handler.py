@@ -45,6 +45,17 @@ def test_is_uo_message_ignore_whitespace() -> None:
     assert is_uo_message("今日も う お を食べた") is True
 
 
+def test_is_uo_message_ignore_symbols() -> None:
+    assert is_uo_message("う!お") is True
+    assert is_uo_message("う♪お") is True
+    assert is_uo_message("う〜お") is True
+    assert is_uo_message("う・お") is True
+    assert is_uo_message("う～～～お") is True
+    assert is_uo_message("う!!!お") is True
+    assert is_uo_message("u!o") is True
+    assert is_uo_message("u♪wo") is True
+
+
 def test_should_count_message() -> None:
     assert should_count_message(is_bot=False, guild_id=123, content="うお") is True
     assert should_count_message(is_bot=True, guild_id=123, content="うお") is False
