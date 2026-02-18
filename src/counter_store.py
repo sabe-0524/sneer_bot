@@ -28,6 +28,17 @@ class CounterStore:
             self._save_unlocked()
             return next_value
 
+    def reset(self, guild_id: int, user_id: int) -> None:
+        key = self._build_key(guild_id, user_id)
+        with self._lock:
+            self._counts.pop(key, None)
+            self._save_unlocked()
+
+    def reset_all(self) -> None:
+        with self._lock:
+            self._counts.clear()
+            self._save_unlocked()
+
     @staticmethod
     def _build_key(guild_id: int, user_id: int) -> str:
         return f"{guild_id}:{user_id}"
