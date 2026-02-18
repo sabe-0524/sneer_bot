@@ -1,4 +1,4 @@
-from src.message_handler import build_count_report, is_uo_message, should_count_message
+from src.message_handler import build_count_report, build_ramen_announce, is_uo_message, should_count_message
 
 
 def test_is_uo_message_contains_match() -> None:
@@ -65,3 +65,8 @@ def test_should_count_message() -> None:
 
 def test_build_count_report() -> None:
     assert build_count_report("@alice", 3) == "@alice うお回数: 3回"
+
+
+def test_build_ramen_announce() -> None:
+    assert build_ramen_announce("@alice", 10) == "@everyone @alice がみんなにラーメンを奢ります！（うお10回記念）"
+    assert build_ramen_announce("@bob", 20) == "@everyone @bob がみんなにラーメンを奢ります！（うお20回記念）"

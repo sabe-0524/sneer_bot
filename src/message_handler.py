@@ -71,3 +71,7 @@ def should_count_message(*, is_bot: bool, guild_id: int | None, content: str) ->
 
 def build_count_report(user_mention: str, count: int) -> str:
     return f"{user_mention} うお回数: {count}回"
+
+
+def build_ramen_announce(user_mention: str, count: int) -> str:
+    return f"@everyone {user_mention} がみんなにラーメンを奢ります！（うお{count}回記念）"

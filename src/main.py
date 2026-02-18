@@ -8,7 +8,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 from src.counter_store import CounterStore
-from src.message_handler import build_count_report, should_count_message
+from src.message_handler import build_count_report, build_ramen_announce, should_count_message
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +40,9 @@ def create_bot() -> commands.Bot:
             count = store.increment(message.guild.id, message.author.id)
             reply = build_count_report(message.author.mention, count)
             await message.channel.send(reply)
+            if count % 10 == 0:
+                ramen = build_ramen_announce(message.author.mention, count)
+                await message.channel.send(ramen)
 
         await bot.process_commands(message)
 
