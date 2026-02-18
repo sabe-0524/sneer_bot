@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unicodedata
 
 
@@ -17,6 +18,18 @@ _SMALL_TO_REGULAR = str.maketrans(
         "ゕ": "か",
         "ゖ": "け",
         "っ": "つ",
+        "を": "お",
+    }
+)
+
+_WO_PATTERN = re.compile(r"wo", re.IGNORECASE)
+
+_LATIN_TO_HIRAGANA = str.maketrans(
+    {
+        "u": "う",
+        "U": "う",
+        "o": "お",
+        "O": "お",
     }
 )
 
@@ -34,8 +47,11 @@ def _to_hiragana(text: str) -> str:
 
 def normalize_uo_text(content: str) -> str:
     normalized = unicodedata.normalize("NFKC", content).strip()
+    normalized = re.sub(r"\s+", "", normalized)
     normalized = _to_hiragana(normalized)
-    return normalized.translate(_SMALL_TO_REGULAR)
+    normalized = normalized.translate(_SMALL_TO_REGULAR)
+    normalized = _WO_PATTERN.sub("お", normalized)
+    return normalized.translate(_LATIN_TO_HIRAGANA)
 
 
 def is_uo_message(content: str) -> bool:
