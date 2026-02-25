@@ -61,12 +61,20 @@ def is_uo_message(content: str) -> bool:
     return "うお" in normalize_uo_text(content)
 
 
-def should_count_message(*, is_bot: bool, guild_id: int | None, content: str) -> bool:
+def _should_count_uo(*, is_bot: bool, guild_id: int | None, text: str) -> bool:
     if is_bot:
         return False
     if guild_id is None:
         return False
-    return is_uo_message(content)
+    return is_uo_message(text)
+
+
+def should_count_message(*, is_bot: bool, guild_id: int | None, content: str) -> bool:
+    return _should_count_uo(is_bot=is_bot, guild_id=guild_id, text=content)
+
+
+def should_count_reaction(*, is_bot: bool, guild_id: int | None, reaction_name: str) -> bool:
+    return _should_count_uo(is_bot=is_bot, guild_id=guild_id, text=reaction_name)
 
 
 def build_count_report(user_mention: str, count: int) -> str:

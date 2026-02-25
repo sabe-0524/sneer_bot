@@ -1,4 +1,10 @@
-from src.message_handler import build_count_report, build_ramen_announce, is_uo_message, should_count_message
+from src.message_handler import (
+    build_count_report,
+    build_ramen_announce,
+    is_uo_message,
+    should_count_message,
+    should_count_reaction,
+)
 
 
 def test_is_uo_message_contains_match() -> None:
@@ -61,6 +67,14 @@ def test_should_count_message() -> None:
     assert should_count_message(is_bot=True, guild_id=123, content="うお") is False
     assert should_count_message(is_bot=False, guild_id=None, content="うお") is False
     assert should_count_message(is_bot=False, guild_id=123, content="hello") is False
+
+
+def test_should_count_reaction() -> None:
+    assert should_count_reaction(is_bot=False, guild_id=123, reaction_name="うお") is True
+    assert should_count_reaction(is_bot=False, guild_id=123, reaction_name="UO_stamp") is True
+    assert should_count_reaction(is_bot=True, guild_id=123, reaction_name="うお") is False
+    assert should_count_reaction(is_bot=False, guild_id=None, reaction_name="うお") is False
+    assert should_count_reaction(is_bot=False, guild_id=123, reaction_name="hello") is False
 
 
 def test_build_count_report() -> None:
